@@ -18,9 +18,12 @@ Running
 - To display help: node midiServer.js -h
 - To list MIDI inputs/outputs: node midiServer.js -l
 - To select inputs/outputs: node midiServer.js -i midiInputNumber -o midiOutputNumber
+- To choose a different listening port: node midiServer.js -p port ...
  
 Websocket message syntax
 ------------------------
+
+server default listening port : 1337
 
 [ eventType, note, velocity ]
 
