@@ -25,19 +25,29 @@ var http = require('http');
 
 // Define version/args
 program
-.version('0.1')
+.version('0.2')
 .option('-l, --list', 'list MIDI inputs/outputs by number')
 .option('-i, --input <n>', 'MIDI input number')
 .option('-o, --output <n>', 'MIDI output number')
+.option('-p, --port <n>', 'server listening port', parseInt)
 .parse(process.argv);
 
 // Initialize MIDI IN/OUT
 var input = new midi.input();
 var output = new midi.output();
+
+// Websocket variables
 var connection;
+var port = 1337;
+
+// Server listening port
+if(program.port) {
+    port = program.port;
+}
+console.log("Server Listening on port "+port);
 
 // List MIDI ports
-if (program.list) {
+if(program.list) {
     console.log("MIDI IN ports:");
     for(var p=0; p<input.getPortCount();p++) {
         console.log(p+" -", input.getPortName(p));
@@ -76,7 +86,7 @@ if(program.output) {
 
 // Websocket
 var server = http.createServer(function(request, response) {});
-server.listen(1337, function() { });
+server.listen(port, function() { });
 
 // Server creation
 wsServer = new WebSocketServer({ httpServer: server });
